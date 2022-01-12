@@ -4,14 +4,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import GetReview from './reviews'
 
+function clearFields() {
+  $('#keyword').val("");
+  $('.showErrors').text("");
+  $('#results').text("");
+}
+
 function getElements(response) {
-  if (response.results) {
-    $('#results').html("<h4>" + `${response.results[0].display_title}` + "</h4>" +
-    "<p>" + `${response.results[0].byline}` + "</p>" +
-    "<p>" + `${response.results[0].summary_short}` + "</p>" +
-    "<a href=" + `${response.results[0].link.url}` + ">" + `${response.results[0].link.suggested_link_text}` + "</a>"); 
+  if (response.num_results >= 1) {
+    for (let i = 0; i < response.results.length; i++) {
+      $('#results').append("<li><h4>" + `${response.results[i].display_title}` + "</h4></li>" +
+      "<p> By " + `${response.results[i].byline}` + "</p>" +
+      "<p>" + `${response.results[i].summary_short}` + "</p>" +
+      "<a id='reviewLink' href=" + `${response.results[i].link.url}` + ">" + `${response.results[i].link.suggested_link_text}` + "</a>");
+    } 
   }
 }
+
 
 async function makeApiCall(keyword) {
   const response = await GetReview.getReview(keyword);
@@ -21,7 +30,8 @@ async function makeApiCall(keyword) {
 $(document).ready(function() {
   $('#reviewSearch').click(function() {
     let keyword = $('#keyword').val();
+    clearFields();
     makeApiCall(keyword);
-    $("#disclaimer").show();
+    $(".disclaimer").show();
   });
 });
