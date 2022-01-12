@@ -15,8 +15,8 @@ function getElements(response) {
     for (let i = 0; i < response.results.length; i++) {
       $('#results').append("<li><h4>" + `${response.results[i].display_title}` + "</h4></li>" +
       "<p> By " + `${response.results[i].byline}` + "</p>" +
-      "<p>" + `${response.results[i].summary_short}` + "</p>" +
-      "<a id='reviewLink' href=" + `${response.results[i].link.url}` + ">" + `${response.results[i].link.suggested_link_text}` + "</a>");
+      "<p id='summary'>'" + `${response.results[i].summary_short}` + "'</p>" +
+      "<a target='_blank' href=" + `${response.results[i].link.url}` + ">" + `${response.results[i].link.suggested_link_text}` + "</a>");
     } 
   }
 }
